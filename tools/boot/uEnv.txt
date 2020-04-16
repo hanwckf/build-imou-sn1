@@ -1,0 +1,3 @@
+verbosity=7
+rootfstype=ext4
+extraargs=noinitrd audit=0 mmz=ddr,0,0,60M
