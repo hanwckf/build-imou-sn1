@@ -1,0 +1,27 @@
+dist: bionic
+language: minimal
+sudo: required
+addons:
+  apt:
+    packages:
+    - bsdtar
+    - tree
+    - debootstrap
+    - jq
+    - binfmt-support
+    - u-boot-tools
+script:
+- make build_archlinux=y build_ubuntu=y build_debian=y build
+- tree -hn output
+deploy:
+  provider: releases
+  skip_cleanup: true
+  overwrite: true
+  file_glob: true
+  file: output/release/*.xz
+  api_key:
+    secure: QAioojAAwcoFo2VBP0ePKfBasY1FIYV0ufLi941EKWWQuahngiFmmsl07xHdzDeLJXJQBZ8DX8EFXZ2YJR+GMo0WZkbbSOJIwBk4naoPMvSm9beL+KiaVzXwW8HZVQl9TyWSzi5s42HslmPW54aMpvy4yQjzgF/oSI9sUN9WaiQDMd0PA6CDEYv/siPk85InMrQsODcv3UBAn5nlMn7CwNOXOG3ekdtmusIKCpoL3kK/eKUg2w+oqY5Q12IEuyuiwoCEx6LDLn8qisYa6x3ECxzC7KUWk0JCIyWYdfNv8kT1wIsFw31P7kHnzGyOmrI8SpJ4Jr4Ozk0rTYVSII+4h/l5rUhK9cVMoJ69sFw9PN1l8XPNi563qWWbv8fBKEITBXbw2PpIjGU6VKunBsSAQ6vzRoPhGrZSrD7UGW1mXEsyDH9oWiHukUkTcuRMQxXSVqWLCeOIalnn37mQhqPSEC1vLQ25PkzaNRIVLioWqksS9aZacL4T7KW3M0qYo9pUEsyh//Chsq9TpDQytWHGbCXYF03+FeyLderyqgTWfxCeTlxP29nae1Mb0j6JM/dR/ErPtFg2K4WtdToyiVecByKCA2/iEKzEsyAGMOUJbWl1KQn0uhTbIagV9GIjpt7MY+I+l+bil+CkprToOcmd9pzIM1esfoCkM7ewYLdBqNU=
+  on:
+    repo: hanwckf/build-imou-sn1
+    tags: true
+
