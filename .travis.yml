@@ -12,6 +12,7 @@ addons:
     - u-boot-tools
 script:
 - make build_archlinux=y build_ubuntu=y build_debian=y build
+- make KERNEL_PKG=linux-hi3798c build_archlinux=y build_ubuntu=y build_debian=y build
 - tree -hn output
 deploy:
   provider: releases

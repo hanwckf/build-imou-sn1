@@ -1,15 +1,13 @@
-KERNEL_BSP := https://github.com/hanwckf/linux-hi3798c/releases/download
-RELEASE_TAG = v2020-4-15
+KERNEL_URL := https://github.com/hanwckf/linux-hi3798c/releases/download
+KERNEL_PKG ?= linux-5.4
+RELEASE_TAG = v2020-4-18
 DTB := hi3798cv200-imou-sn1.dtb
-
-DTB_URL := $(KERNEL_BSP)/$(RELEASE_TAG)/$(DTB)
-KERNEL_URL := $(KERNEL_BSP)/$(RELEASE_TAG)/Image
-KMOD_URL := $(KERNEL_BSP)/$(RELEASE_TAG)/modules.tar.xz
 
 TARGETS := debian ubuntu archlinux
 
-DL := dl
-DL_KERNEL := $(DL)/kernel/$(RELEASE_TAG)
+DL = dl
+DL_KERNEL = $(DL)/kernel/$(RELEASE_TAG)
+KERNEL_PKG_NAME = $(KERNEL_PKG).tar.xz
 OUTPUT := output
 
 CURL := curl -O -L -4
@@ -24,16 +22,11 @@ build: $(TARGETS)
 clean: $(TARGETS:%=%_clean)
 	rm -f $(RESCUE_ROOTFS)
 
-dl_kernel: $(DL_KERNEL)/$(DTB) $(DL_KERNEL)/Image $(DL_KERNEL)/modules.tar.xz
+dl_kernel: $(DL_KERNEL)/$(KERNEL_PKG_NAME)
+	tar -xf $(DL_KERNEL)/$(KERNEL_PKG_NAME) -C $(DL_KERNEL)
 
-$(DL_KERNEL)/$(DTB):
-	$(call download,$(DL_KERNEL),$(DTB_URL))
-
-$(DL_KERNEL)/Image:
-	$(call download,$(DL_KERNEL),$(KERNEL_URL))
-
-$(DL_KERNEL)/modules.tar.xz:
-	$(call download,$(DL_KERNEL),$(KMOD_URL))
+$(DL_KERNEL)/$(KERNEL_PKG):
+	$(call download,$(DL_KERNEL),$(KERNEL_URL)/$(KERNEL_PKG_NAME))
 
 ALPINE_BRANCH := v3.10
 ALPINE_VERSION := 3.10.4
@@ -57,7 +50,7 @@ $(RESCUE_ROOTFS):
 	@[ ! -f $(RESCUE_ROOTFS) ] && make rescue
 
 rescue: alpine_dl
-	sudo BUILD_RESCUE=y ./build-alpine.sh release $(DL)/$(ALPINE_PKG) $(DL_KERNEL) -
+	sudo kernel_ver=$(KERNEL_PKG) BUILD_RESCUE=y ./build-alpine.sh release $(DL)/$(ALPINE_PKG) $(DL_KERNEL) -
 
 ARCHLINUX_PKG := ArchLinuxARM-aarch64-latest.tar.gz
 ifneq ($(TRAVIS),)
@@ -75,7 +68,7 @@ archlinux_clean:
 
 ifeq ($(build_archlinux),y)
 archlinux: archlinux_dl $(RESCUE_ROOTFS)
-	sudo ./build-archlinux.sh release $(DL)/$(ARCHLINUX_PKG) $(DL_KERNEL) $(RESCUE_ROOTFS)
+	sudo kernel_ver=$(KERNEL_PKG) ./build-archlinux.sh release $(DL)/$(ARCHLINUX_PKG) $(DL_KERNEL) $(RESCUE_ROOTFS)
 else
 archlinux:
 endif
@@ -96,14 +89,14 @@ ubuntu_clean:
 
 ifeq ($(build_ubuntu),y)
 ubuntu: ubuntu_dl $(RESCUE_ROOTFS)
-	sudo ./build-ubuntu.sh release $(DL)/$(UBUNTU_PKG) $(DL_KERNEL) $(RESCUE_ROOTFS)
+	sudo kernel_ver=$(KERNEL_PKG) ./build-ubuntu.sh release $(DL)/$(UBUNTU_PKG) $(DL_KERNEL) $(RESCUE_ROOTFS)
 else
 ubuntu:
 endif
 
 ifeq ($(build_debian),y)
 debian: dl_kernel $(RESCUE_ROOTFS)
-	sudo ./build-debian.sh release - $(DL_KERNEL) $(RESCUE_ROOTFS)
+	sudo kernel_ver=$(KERNEL_PKG) ./build-debian.sh release - $(DL_KERNEL) $(RESCUE_ROOTFS)
 
 else
 debian:
