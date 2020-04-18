@@ -14,23 +14,18 @@ add_svc(){
 
 apk update --no-progress && \
 	apk add --no-progress alpine-base haveged parted \
-	e2fsprogs-extra coreutils uboot-tools pv tzdata hdparm
+	e2fsprogs-extra coreutils uboot-tools pv tzdata hdparm \
+	dropbear dropbear-scp
 
 echo "root:admin" | chpasswd
 
 add_svc "sysinit" "sysfs procfs devfs mdev"
 
-add_svc "boot" "urandom swclock sysctl modules hostname bootmisc syslog"
+add_svc "boot" "urandom swclock sysctl modules hostname bootmisc syslog networking"
 
-add_svc "default" "crond haveged ntpd"
+add_svc "default" "crond haveged ntpd dropbear"
 
 add_svc "shutdown" "killprocs mount-ro savecache"
-
-if [ "$BUILD_RESCUE" != "y" ]; then
-	apk add --no-progress dropbear dropbear-scp
-	add_svc "boot" "networking"
-	add_svc "default" "dropbear"
-fi
 
 sed -i '/^tty[2-6]/d' ./etc/inittab
 
