@@ -11,6 +11,9 @@ if [ ! -f $mbr_img ] || [ ! -f $ext4_img ]; then
 	exit 1
 fi
 
+echo 0 > /sys/class/leds/sata-white/brightness
+echo 1 > /sys/class/leds/sata-red/brightness
+
 echo "flash emmc mbr..."
 dd if=$mbr_img of=$disk conv=fsync
 
@@ -19,3 +22,5 @@ pv -pterb $ext4_img | dd of=$disk conv=fsync bs=2M seek=1
 
 [ "$?" = "0" ] && echo "flash done, please poweroff now then unplug USB drive!" || echo "flash fail!"
 
+echo 0 > /sys/class/leds/sata-red/brightness
+echo 1 > /sys/class/leds/sata-white/brightness
