@@ -25,7 +25,7 @@ clean: $(TARGETS:%=%_clean)
 dl_kernel: $(DL_KERNEL)/$(KERNEL_PKG_NAME)
 	tar -xf $(DL_KERNEL)/$(KERNEL_PKG_NAME) -C $(DL_KERNEL)
 
-$(DL_KERNEL)/$(KERNEL_PKG):
+$(DL_KERNEL)/$(KERNEL_PKG_NAME):
 	$(call download,$(DL_KERNEL),$(KERNEL_URL)/$(KERNEL_PKG_NAME))
 
 ALPINE_BRANCH := v3.10
