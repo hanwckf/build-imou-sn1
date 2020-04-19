@@ -36,7 +36,7 @@ echo "/dev/mmcblk1 0x1f0000 0x10000 0x10000" > ./etc/fw_env.config
 sed -i 's/pool.ntp.org/time1.aliyun.com/' ./etc/conf.d/ntpd
 ln -sf /usr/share/zoneinfo/Asia/Shanghai ./etc/localtime
 
-echo "alpine" > ./etc/hostname
+echo "imou-sn1" > ./etc/hostname
 
 cat > ./etc/network/interfaces <<EOF
 auto lo
@@ -44,7 +44,7 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet dhcp
-	hostname alpine
+	hostname imou-sn1
 
 EOF
 
