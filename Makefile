@@ -1,8 +1,8 @@
-KERNEL_URL := https://github.com/hanwckf/linux-hi3798c/releases/download
 KERNEL_PKG ?= linux-5.4
 RELEASE_TAG = v2020-04-19
-DTB := hi3798cv200-imou-sn1.dtb
 
+DTB := hi3798cv200-imou-sn1.dtb
+KERNEL_URL = https://github.com/hanwckf/linux-hi3798c/releases/download/$(RELEASE_TAG)
 TARGETS := debian ubuntu archlinux
 
 DL = dl
