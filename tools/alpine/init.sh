@@ -1,6 +1,8 @@
 #!/bin/sh
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+SERIAL="ttyAMA0"
+HOST_NAME="imou-sn1"
 
 add_svc(){
 	runlevel="$1"
@@ -29,14 +31,14 @@ add_svc "shutdown" "killprocs mount-ro savecache"
 
 sed -i '/^tty[2-6]/d' ./etc/inittab
 
-echo "ttyAMA0::respawn:/sbin/getty -L ttyAMA0 115200 vt100" >> ./etc/inittab
-echo "ttyAMA0" >> ./etc/securetty
+echo "${SERIAL}::respawn:/sbin/getty -L ${SERIAL} 115200 vt100" >> ./etc/inittab
+echo "${SERIAL}" >> ./etc/securetty
 echo "/dev/mmcblk1 0x1f0000 0x10000 0x10000" > ./etc/fw_env.config
 
 sed -i 's/pool.ntp.org/time1.aliyun.com/' ./etc/conf.d/ntpd
 ln -sf /usr/share/zoneinfo/Asia/Shanghai ./etc/localtime
 
-echo "imou-sn1" > ./etc/hostname
+echo "${HOST_NAME}" > ./etc/hostname
 
 cat > ./etc/network/interfaces <<EOF
 auto lo
@@ -44,7 +46,7 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet dhcp
-	hostname imou-sn1
+	hostname ${HOST_NAME}
 
 EOF
 

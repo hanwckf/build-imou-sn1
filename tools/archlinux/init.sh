@@ -1,6 +1,8 @@
 #!/bin/sh
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+SERIAL="ttyAMA0"
+HOST_NAME="imou-sn1"
 
 mount -t proc none /proc
 mount -t sysfs none /sys
@@ -11,7 +13,7 @@ pacman -Rn --noconfirm linux-aarch64 linux-firmware
 
 systemctl set-default multi-user.target
 
-echo "ttyAMA0" >> ./etc/securetty
+echo "${SERIAL}" >> ./etc/securetty
 
 echo "/dev/root / ext4 defaults,noatime,nodiratime,errors=remount-ro 0 1" >> ./etc/fstab
 
@@ -42,7 +44,7 @@ ACTION=="add", SUBSYSTEM=="block", KERNEL=="sd*",ENV{ID_BUS}=="ata", ENV{DEVTYPE
 EOF
 
 echo "/dev/mmcblk1 0x1f0000 0x10000 0x10000" > ./etc/fw_env.config
-echo "imou-sn1" > ./etc/hostname
+echo "${HOST_NAME}" > ./etc/hostname
 
 # clean
 pacman -Sc --noconfirm
