@@ -31,7 +31,7 @@ $(DL_KERNEL)/$(KERNEL_PKG_NAME):
 ALPINE_BRANCH := v3.10
 ALPINE_VERSION := 3.10.4
 ALPINE_PKG := alpine-minirootfs-$(ALPINE_VERSION)-aarch64.tar.gz
-RESCUE_ROOTFS := tools/rescue/rescue-alpine-imou-sn1-$(ALPINE_VERSION)-aarch64.tar.xz
+RESCUE_ROOTFS := tools/rescue/rescue-alpine-imou-sn1-$(KERNEL_PKG)-$(ALPINE_VERSION)-aarch64.tar.xz
 
 ifneq ($(TRAVIS),)
 ALPINE_URL_BASE := http://dl-cdn.alpinelinux.org/alpine/$(ALPINE_BRANCH)/releases/aarch64
