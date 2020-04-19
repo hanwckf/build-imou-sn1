@@ -27,7 +27,6 @@ locale-gen
 echo 'LANG=en_US.utf8' > ./etc/locale.conf
 echo 'KEYMAP=us' > ./etc/vconsole.conf
 ln -sf ../usr/share/zoneinfo/Asia/Shanghai ./etc/localtime
-echo "vm.zone_reclaim_mode=1" > /etc/sysctl.d/99-vm-reclaim.conf
 echo "root:admin" |chpasswd
 
 pacman-key --init
@@ -43,6 +42,7 @@ ACTION=="add", SUBSYSTEM=="block", KERNEL=="sd*",ENV{ID_BUS}=="ata", ENV{DEVTYPE
 EOF
 
 echo "/dev/mmcblk1 0x1f0000 0x10000 0x10000" > ./etc/fw_env.config
+echo "imou-sn1" > ./etc/hostname
 
 # clean
 pacman -Sc --noconfirm
