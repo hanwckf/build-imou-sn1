@@ -51,6 +51,7 @@ pacman -Sc --noconfirm
 rm -rf ./etc/pacman.d/gnupg
 killall -9 gpg-agent
 
+rm -rf ./lib/modules/*
 rm -rf ./var/log/journal
 rm -f ./var/lib/dbus/machine-id
 : > ./etc/machine-id
