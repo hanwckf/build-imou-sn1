@@ -96,8 +96,9 @@ ubuntu:
 endif
 
 ifeq ($(build_debian),y)
+DEBIAN_VER ?= buster
 debian: dl_kernel $(RESCUE_ROOTFS)
-	sudo kernel_ver=$(KERNEL_PKG) ./build-debian.sh release - $(DL_KERNEL) $(RESCUE_ROOTFS)
+	sudo debian_ver=$(DEBIAN_VER) kernel_ver=$(KERNEL_PKG) ./build-debian.sh release - $(DL_KERNEL) $(RESCUE_ROOTFS)
 
 else
 debian:

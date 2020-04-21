@@ -7,7 +7,7 @@ set -e
 set -o pipefail
 
 os="debian"
-os_ver="buster"
+os_ver=${debian_ver:-"buster"}
 rootsize=1000
 
 source cfg.inc
