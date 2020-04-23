@@ -27,9 +27,13 @@ apt $apt_arg update && \
 apt clean
 
 aptitude search ~pstandard ~prequired ~pimportant -F "%p" |xargs apt $apt_arg install
-apt clean
 
-apt $apt_arg purge exim4-base exim4-config && apt $apt_arg autoremove
+PURGE_PKGS="exim4-base exim4-config"
+
+for x in $PURGE_PKGS; do
+	apt $apt_arg purge $x
+done
+apt $apt_arg autoremove
 apt clean
 
 systemctl set-default multi-user.target

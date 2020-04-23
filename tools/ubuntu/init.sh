@@ -31,7 +31,13 @@ fi
 
 apt $apt_arg install net-tools openssh-server dialog haveged parted u-boot-tools
 apt -f $apt_arg install
-apt $apt_arg purge irqbalance ureadahead unattended-upgrades && apt $apt_arg autoremove
+
+PURGE_PKGS="irqbalance ureadahead unattended-upgrades"
+
+for x in $PURGE_PKGS; do
+	apt $apt_arg purge $x
+done
+apt $apt_arg autoremove
 apt clean
 
 systemctl enable systemd-networkd
