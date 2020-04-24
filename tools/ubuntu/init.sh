@@ -73,6 +73,8 @@ echo "${HOST_NAME}" > ./etc/hostname
 echo "root:admin" |chpasswd
 
 rm -f ./etc/ssh/ssh_host_*
+mkdir -p /run/sshd
+
 rm -rf ./var/log/journal
 rm -rf ./var/cache
 rm -rf ./var/lib/apt/*
