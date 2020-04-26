@@ -11,6 +11,8 @@ if [ ! -f $mbr_img ] || [ ! -f $ext4_img ]; then
 	exit 1
 fi
 
+echo "none" > /sys/class/leds/sata-white/trigger
+echo "none" > /sys/class/leds/sata-red/trigger
 echo 0 > /sys/class/leds/sata-white/brightness
 echo 1 > /sys/class/leds/sata-red/brightness
 
