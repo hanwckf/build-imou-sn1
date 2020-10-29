@@ -88,6 +88,11 @@ func_generate() {
 	echo "add /lib/modules"
 	tar --no-same-owner -xf $kdir/modules.tar.xz --strip-components 1 -C $rootfs_mount_point/lib
 
+	# add qca9377-sdio firmware
+	echo "add qca9377-sdio fw to /lib/firmware"
+	mkdir -p $rootfs_mount_point/lib/firmware/
+	cp -r -f ./firmware/ath10k/ $rootfs_mount_point/lib/firmware/
+
 	# chroot post
 	chroot_post
 

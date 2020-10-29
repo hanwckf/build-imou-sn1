@@ -12,7 +12,7 @@ addons:
     - u-boot-tools
 script:
 - make build_archlinux=y build_ubuntu=y build_debian=y build
-- make build_ubuntu=y UBUNTU_VER=20.04 build
+- make build_ubuntu=y UBUNTU_VER=20.04.1 build
 - tree -hn output
 deploy:
   provider: releases

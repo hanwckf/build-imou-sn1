@@ -1,5 +1,5 @@
 KERNEL_PKG ?= linux-5.4
-RELEASE_TAG = v2020-04-26
+RELEASE_TAG = v2020-10-29
 
 DTB := hi3798cv200-imou-sn1.dtb
 KERNEL_URL = https://github.com/hanwckf/linux-hi3798c/releases/download/$(RELEASE_TAG)
@@ -36,7 +36,7 @@ RESCUE_ROOTFS := tools/rescue/rescue-alpine-imou-sn1-$(KERNEL_PKG)-$(ALPINE_VERS
 ifneq ($(TRAVIS),)
 ALPINE_URL_BASE := http://dl-cdn.alpinelinux.org/alpine/$(ALPINE_BRANCH)/releases/aarch64
 else
-ALPINE_URL_BASE := https://mirrors.huaweicloud.com/alpine/$(ALPINE_BRANCH)/releases/aarch64
+ALPINE_URL_BASE := https://mirrors.cloud.tencent.com/alpine/$(ALPINE_BRANCH)/releases/aarch64
 endif
 
 alpine_dl: dl_kernel $(DL)/$(ALPINE_PKG)
@@ -73,12 +73,12 @@ else
 archlinux:
 endif
 
-UBUNTU_VER ?= 18.04.4
+UBUNTU_VER ?= 18.04.5
 UBUNTU_PKG ?= ubuntu-base-$(UBUNTU_VER)-base-arm64.tar.gz
 ifneq ($(TRAVIS),)
 UBUNTU_URL_BASE = http://cdimage.ubuntu.com/ubuntu-base/releases/$(UBUNTU_VER)/release
 else
-UBUNTU_URL_BASE = https://mirrors.huaweicloud.com/ubuntu-cdimage/ubuntu-base/releases/$(UBUNTU_VER)/release
+UBUNTU_URL_BASE = https://mirrors.cloud.tencent.com/ubuntu-cdimage/ubuntu-base/releases/$(UBUNTU_VER)/release
 endif
 
 ubuntu_dl: dl_kernel $(DL)/$(UBUNTU_PKG)
